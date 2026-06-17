@@ -1,14 +1,6 @@
-from supabase import create_client
-from dotenv import load_dotenv
-import os
+from services.supabase_service import buscar_contatos
 
-load_dotenv()
+contatos = buscar_contatos()
 
-supabase = create_client(
-    os.getenv("SUPABASE_URL"),
-    os.getenv("SUPABASE_KEY")
-)
-
-dados = supabase.table("contatos").select("*").execute()
-
-print(dados.data)
+for contato in contatos:
+    print(contato)
