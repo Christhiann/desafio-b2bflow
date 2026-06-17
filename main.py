@@ -1,12 +1,23 @@
 from dotenv import load_dotenv
+from services.supabase_service import buscar_contatos
 from services.zapi_service import enviar_mensagem
 
 load_dotenv()
 
-resposta = enviar_mensagem(
-    "5598986290251",
-    "Teste da integração Python + ZAPI"
-)
+contatos = buscar_contatos()
 
-print(resposta.status_code)
-print(resposta.text)
+for contato in contatos:
+
+    nome = contato["nome"]
+    telefone = contato["telefone"]
+
+    mensagem = f"Olá, {nome} tudo bem com você?"
+
+    resposta = enviar_mensagem(
+        telefone,
+        mensagem
+    )
+
+    print(
+        f"Mensagem enviada para {nome}: {resposta.status_code}"
+    )
